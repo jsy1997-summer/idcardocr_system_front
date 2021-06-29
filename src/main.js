@@ -9,11 +9,17 @@ import Home from "./views/Home.vue";
 import axios from 'axios';
 import './style/style.css';
 import global_datavue from "./data/data.vue"
+import miser_endecode from "./methods/endecode.js"
+
  
-Vue.prototype.$axios = axios
+Vue.prototype.$axios = axios;
+Vue.prototype.addre = global_datavue.addre;
+Vue.prototype.endecode = miser_endecode;
+Vue.prototype.globaldata =  global_datavue;
+
 
 // import VueRouter from 'vue-router'
-Vue.prototype.addre = global_datavue.addre;
+
 
 // Vue.use(VueRouter);
 Vue.use(ViewUI);

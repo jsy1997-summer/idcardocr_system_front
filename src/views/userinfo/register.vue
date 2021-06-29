@@ -11,10 +11,22 @@
             <FormItem label="密码" prop="password">
                  <Input v-model="formValidate.password" placeholder="密码不少于6位"></Input>
            </FormItem>
+            <div>点击上传头像  
+                <Upload :before-upload="Upload"  action="//jsonplaceholder.typicode.com/posts/"  :max-size="2048" style="display: inline-block;margin-top:10px;margin-left:20px;" :with-credentials="true" :show-upload-list="false">
+                <button>
+                    <div style="height:50px;weight:500px!important;background-color:gray">
+                    <img style="height:50px;weight:50px;" v-for="item in uploadList" :src="item.url">
+                    </div>
+                                  
+                </button>                     
+                </Upload>                  
+                </div>
             <FormItem >
+            <br>
             <Button type="primary" @click="handleSubmit('formValidate')" style="float:left">提交注册信息</Button>
              <Button type="primary" @click="back()" style="float:right">返回登录页面</Button>
             </FormItem>
+            
         </Form> 
     </Card>
 </div> 
@@ -26,6 +38,8 @@
     name: "Register", 
     data () {
             return {
+                uploadList:[],
+                base64:{},
                 formValidate: {
                     name: '',
                     password: '',
@@ -53,6 +67,7 @@
                             data:{
                                 "user_name":this.formValidate.name,
                                 "user_password":this.formValidate.password,
+                                "user_image":this.base64,
                             },
                             header:{
                                    'Content-Type':'application/json;charset=utf-8'  //如果写成contentType会报错
@@ -72,7 +87,19 @@
                  this.$router.push('/login').catch(err => {
                         console.log('跳转错误',err)
             })
-             },
+            },
+            Upload(file){
+                 this.uploadList=[];
+
+                let reader = new FileReader();
+                reader.readAsDataURL(file)
+                const _this = this
+                reader.onloadend = function (e) {
+                    file.url = reader.result
+                    _this.uploadList.push(file)
+                    _this.base64 = file.url
+                    }  
+            },
            
         }
         

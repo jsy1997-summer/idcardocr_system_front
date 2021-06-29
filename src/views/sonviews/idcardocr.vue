@@ -123,6 +123,7 @@ var took = sessionStorage.getItem('tokenKey');
         // 当读操作完成，readyState 变为 DONE，loadend 被触发，此时 result 属性包含数据：URL（以 base64 编码的字符串表示文件的数据）
         // 读取文件作为 URL 可访问地址
         reader.readAsDataURL(file)
+        
      
 
         const _this = this
@@ -135,7 +136,7 @@ var took = sessionStorage.getItem('tokenKey');
            
         }  
        
-
+        
          //得到公钥
         this.$axios({
           method:'post',
@@ -160,7 +161,7 @@ var took = sessionStorage.getItem('tokenKey');
                this.private_key = this.private_key.replace("b'","")
                this.private_key = this.private_key.replace("'","")
                this.private_key = this.private_key.replace(/\\n/g, " \n ");
-              
+              console.time('y')
                            
                //前端进行信息加密
                const  encrypt = new JSEncrypt();
@@ -184,7 +185,8 @@ var took = sessionStorage.getItem('tokenKey');
               imgdata = imgdata.substr(0,Math.min(fir_head, sec_head)) + ciphertext +imgdata.substr(Math.max(fir_head,sec_head)+50)//截取部分加密的信息与未截取到的信息，明文+密文+明文
               // let cip_length = ciphertext.length #单个密文的长度是344，两个密文长度688
 
-           
+              console.timeEnd('y')
+             
           
                this.$axios({
                  method:'post',
@@ -212,6 +214,7 @@ var took = sessionStorage.getItem('tokenKey');
             .catch(Error=>{
               console.log(Error)
               })
+
 
     },
     succeed(){

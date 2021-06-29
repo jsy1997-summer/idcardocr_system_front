@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import global_data from '../store/data'
+
 export default {
   name: 'Login',
    data () {
@@ -55,7 +55,7 @@ export default {
         handleSubmit(name) {
            
            
-            console.log('http://'+this.addre+'/login/')
+            // console.log('http://'+this.addre+'/login/')
 
                 this.$refs[name].validate((valid) => {
                     if (valid) {
@@ -71,10 +71,13 @@ export default {
 
                         })
                         .then(response=>{
-                            console.log(response.data)
-                            if(response.data==this.formCustom.password){
-                                global_data.person_name=this.formCustom.user
-                                
+                            // console.log(response.data)
+                            let res = response.data
+                            if(res==this.formCustom.password){
+                              
+                                var name = this.formCustom.user;
+                                sessionStorage.setItem('name',name);  
+        
                                 this.$Message.success('Success!');
                                 this.$router.push('/home')
                                 }

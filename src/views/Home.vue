@@ -47,13 +47,16 @@
                     <Divider type="vertical" style="height:50px;top:8px;float:left;"/>
                     <div style="float:left;font:bold 30px/60px Georgia, serif;">文字识别系统</div>
                     <Dropdown  @on-click="happen" style="float:right;" placement="bottom">
-                    <Avatar icon="ios-person" src="https://i.loli.net/2021/06/02/nGNE4kbqwVpro87.jpg"   size="large" />
+                   
+                    <img id="ok" ref="myimg" src="" class="person_img"   alt="picture">
+                    
+                 
                     <DropdownMenu slot="list">
                     <DropdownItem name="quit_login">退出登录</DropdownItem>
-                    <DropdownItem name="person_info">个人信息</DropdownItem>
+                    <DropdownItem @click="person_info" name="person_info">个人信息</DropdownItem>
                     </DropdownMenu>
                     </Dropdown>
-                    <div style="float:right;margin-right:50px">亲爱的“{{text}}”，您好</div>
+                    <div ref="tip" style="float:right;margin-right:50px">亲爱的“{{text}}”，您好</div>
                    
                 </Header>
                 <Content :style="{margin: '20px', background: '#fff', minHeight: '560px'}">
@@ -69,25 +72,36 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-import global_data from '../store/data'
 export default {
   name: 'Home',
    data () {
             return {
                 theme: 'dark',
                 isCollapsed: false,
-                text:global_data.person_name,
+                text:sessionStorage.getItem("name"),   
+
             }
         },
+    created(){
+      
+    },
+    mounted(){ 
+    var name = this.text
+    this.$refs.myimg.src=require('../assets/'+name+'.jpg')   
+    // document.getElementById('ok').src=require('../assets/'+name+'.jpg')   
+    },
   components: {
     // HelloWorld
   },
   computed: {
             menuitemClasses: function () {
+                //  var url= sessionStorage.getItem("url");
+                //  document.getElementById("myimg").setAttribute("url",url)
                 return [
                     'menu-item',
                     this.isCollapsed ? 'collapsed-menu' : ''
                 ]
+                
             }
     },
     methods:{
@@ -99,10 +113,10 @@ export default {
             }
         },
         person_info(){
-            alert("jwerf ")
+           console.log("你好")
         },
         quit(){
-            alert("你好")
+           console.log("你好")
         }
     }
 }
@@ -153,6 +167,16 @@ export default {
         width:100px;
         height:45px;
         float: left;
+    }
+    .person_img{
+        width:50px;
+        height:50px;
+        border-radius: 50%;
+        -moz-border-radius: 50%; 
+        -webkit-border-radius: 50%;
+        background-size:100% 100%;
+        background-attachment:fixed;
+        background-repeat:no-repeat;
     }
 
 </style>

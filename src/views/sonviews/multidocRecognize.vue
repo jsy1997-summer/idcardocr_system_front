@@ -123,6 +123,8 @@ var took = sessionStorage.getItem('tokenKey');
         },
         Mounted(){
             document.getElementById('body').scrollTop=10000;
+           
+           
         },
          
        
@@ -131,10 +133,12 @@ var took = sessionStorage.getItem('tokenKey');
          this.file_name.push({
            name:file.name
          })
+        
+        this.endecode.getkey();//获取公钥和私钥
 
         //上传新的图片之前先删除上一个图片
         //  this.uploadList=[];
-        
+       
         
       
         // 创建一个 FileReader 对象
@@ -157,23 +161,39 @@ var took = sessionStorage.getItem('tokenKey');
     error(){
       console.log("上传失败了")
     },
-    idcard_ocr(){
+    idcard_ocr(fir,sec){
         this.$axios({
           method:'post',
-          url:'http://'+this.addre+'/ocr/',
+          url:'http://'+this.addre+'/senddata/',
           data:{
             "img_base64":this.image_base64,
+             "fir_head":fir,
+             "sec_head":sec,
             
           },
           header:{
-            // 'Content-Type':'application/json'  //如果写成contentType会报错
             'Content-Type':"application/x-www-form-urlencoded",
             }
-            })
-            .then(response=>{
-              //  var data = JSON.stringify(response.data);
-              //  this.recog_text = this.recog_text + data;
-              var info = response.data;
+        })
+        .then(response=>{
+          this.$axios({
+            method:'post',
+            url:'http://'+this.addre+'/ocr/',
+            header:{
+            'Content-Type':"application/x-www-form-urlencoded",
+            }
+          })
+          .then(reson=>{
+              let res = reson.data;
+           
+    
+              //miser解密
+              let fir = res["fir"];//第一段起始位置
+              let sec = res["sec"];//第二段起始位置
+              let cip_all = res["cip_all"];//整体密文加明文部分
+              var info=this.endecode.miser_decode(fir,sec,cip_all)
+              
+              // var info = response.data;
               this.info_data.push({
                 name:info['name'],
                 sex:info['sex'],
@@ -181,34 +201,47 @@ var took = sessionStorage.getItem('tokenKey');
                 birth:info['birth'],
                 idnum:info['idnum'],
                 address:info['address']
-              })
-
+          })
                this.$Message.success('识别成功啦！')
                if(this.now_id!=this.card_num){
                  this.now_id = this.now_id + 1;
                  this.image_base64 = this.uploadList[this.now_id - 1].url
-                 this.idcard_ocr();
+                 let res =this.endecode.miser_encode(this.image_base64)
+                 let fir = res.fir;
+                 let sec = res.sec;
+                 this.image_base64 = res.imgdata;
+                 this.idcard_ocr(fir,sec);
+                }  
+          })
 
-               }
-              })
-            .catch(Error=>{
-              console.log(Error)
-              })  
+              
+
+              
+          })
+          .catch(Error=>{
+            console.log(Error)
+          })  
     },
     multi_idcard_ocr(){
      
       var docnum = this.uploadList.length;//总的上传的身份证图片的数量
       this.card_num = docnum;
-      // for(var i=1;i<=docnum;i++){//依次取出传到后端进行识别
-      //   var img = this.uploadList[i-1].url;
-      //   this.image_base64="";
-      //   this.image_base64 = img;
-      //   this.idcard_ocr();
-      // }//无法循环访问后端进行识别，访问后端不会等待后端把数据传回来再进行程序，所以会出现同时访问后端报错
+     
       //仅仅是把数据传到后端就会继续进行下一步程序，不会等待后端把数据传回。解决：在返回数据的程序里面回调this.idcard_ocr()
+      var fir;
+      var sec;
       if(this.info_data.length==0){
         this.image_base64 = this.uploadList[0].url;
-        this.idcard_ocr();
+        
+        //miser信息加密
+        //前端进行信息加密
+       
+        //fir,sec,this.image_base64 = this.endecode.miser_encode(this.image_base64)
+        var res =this.endecode.miser_encode(this.image_base64)
+        fir = res.fir;
+        sec = res.sec;
+        this.image_base64 = res.imgdata;
+        this.idcard_ocr(fir,sec);
         this.now_id = 1;
 
       }else{
@@ -216,8 +249,12 @@ var took = sessionStorage.getItem('tokenKey');
         // this.card_num = this.card_num + 1;
         this.image_base64 = this.uploadList[this.now_id].url;
         this.card_num = this.card_num - 1;
-      
-        this.idcard_ocr();
+        
+        var res =this.endecode.miser_encode(this.image_base64)
+        fir = res.fir;
+        sec = res.sec;
+        this.image_base64 = res.imgdata;
+        this.idcard_ocr(fir,sec);
       }
       
     },
@@ -227,25 +264,6 @@ var took = sessionStorage.getItem('tokenKey');
                     });
     },
   
-    exportfordoc(){
-      this.$axios({
-          method:'post',
-          url:'http://'+this.addre+'/download/',
-          data:{
-            "download_info":this.recog_text,    
-          },
-          header:{
-            'Content-Type':"application/x-www-form-urlencoded",
-            }
-            })
-            .then(response=>{
-              this.$Message.success('已经存入D盘');
-              })
-            .catch(Error=>{
-              console.log(Error)
-              })
-      
-    },
     handleRemove(file) {
         this.uploadList.splice(this.uploadList.indexOf(file), 1)
     },
