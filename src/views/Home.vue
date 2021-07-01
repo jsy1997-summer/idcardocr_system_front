@@ -45,7 +45,7 @@
                 <Header class="layout-header-bar">
                     <div style="left:-200px;top:40px;"><img src="../assets/logo.gif" class="logo"></img></div>
                     <Divider type="vertical" style="height:50px;top:8px;float:left;"/>
-                    <div style="float:left;font:bold 30px/60px Georgia, serif;">文字识别系统</div>
+                    <div style="float:left;font:bold 30px/60px Georgia, serif;">身份证识别系统</div>
                     <Dropdown  @on-click="happen" style="float:right;" placement="bottom">
                    
                     <img id="ok" ref="myimg" src="" class="person_img"   alt="picture">
@@ -64,7 +64,7 @@
                 </Content>
             </Layout>
             </Layout>
-            <Footer class="layout-footer-center">2021-2022 贾素银 &copy; 文字识别系统</Footer>
+            <Footer class="layout-footer-center">2021-2022 贾素银 &copy; 身份证识别系统</Footer>
         </Layout>
     </div>
 </template>

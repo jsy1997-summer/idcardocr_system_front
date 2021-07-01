@@ -128,7 +128,7 @@ var token =  localStorage.getItem('tokenKey')
         reader.onloadend = function (e) {
             file.url = reader.result
             _this.uploadList.push(file)
-            _this.image_base6=file.url  
+            _this.image_base64=file.url  
         }  
     },
     succeed(){
@@ -144,9 +144,9 @@ var token =  localStorage.getItem('tokenKey')
         this.page_title="登录考试页面"
         this.$axios({
           method:'post',
-          url:'http://'+this.addre+'/ocr/',
+          url:'http://'+this.addre+'/noencode_ocr/',
           data:{
-            "img_base64":this.image_base6,
+            "img_base64":this.image_base64,
             
           },
           header:{
@@ -165,13 +165,6 @@ var token =  localStorage.getItem('tokenKey')
               })
     },
     submit(){
-
-        console.log(this.formItem.name);
-        console.log(this.person.name);
-        console.log(this.formItem.id);
-        console.log(this.person.id);
-        console.log(this.formItem.sex);
-        console.log(this.person.sex);
         if((this.formItem.name==this.person.name)&&(this.formItem.id==this.person.id)&&(this.formItem.sex==this.person.sex)){
             document.getElementById('verify_page').style.display="none";
             document.getElementById('start_page').style.display="";
@@ -188,6 +181,7 @@ var token =  localStorage.getItem('tokenKey')
         this.current=3;
         this.page_title="进入考试页面"
     },
+    submit_exam(){},
     }
         
     }
