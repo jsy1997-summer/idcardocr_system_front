@@ -23,6 +23,7 @@
                     </template>
                     <MenuItem name="3-1"><router-link to="/verifyidcardinfo"><div style="color:white">身份信息验证</div></router-link></MenuItem>
                     <MenuItem name="3-2"><router-link to="/photocheck"><div style="color:white">照片比对</div></router-link></MenuItem>
+                    <MenuItem name="3-3"><router-link to="/secverify"><div style="color:white">真伪判别</div></router-link></MenuItem>
                 </Submenu>
                 <Submenu name="4">
                     <template slot="title">

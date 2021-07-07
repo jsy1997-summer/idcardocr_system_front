@@ -94,6 +94,14 @@ const routes = [
         },
         component: () => import('../views/sonviews/photocheck')
       },
+      {
+        path: '/secverify',
+        name: 'secverify',
+        meta:{
+          title:"真伪判别"
+        },
+        component: () => import('../views/sonviews/secverify')
+      },
   
     ],
   },

@@ -313,6 +313,7 @@ var token =  localStorage.getItem('tokenKey')
 }
 .page{
     position: relative;
+   
     background-color: azure;
     height:400px;
     font-style:initial;

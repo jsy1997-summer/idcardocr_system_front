@@ -174,8 +174,8 @@ var took = sessionStorage.getItem('tokenKey');
               // console.log(fir_seq)
               let sec_seq = imgdata.substr(sec_head,50);//生成第二段序列，长度50，与第一段部分重叠不可以再长了，否则会报错
               let fir_ciphertext = encrypt.encrypt(fir_seq);//生成第一段序列的密文
-              // console.log("第一段密文如下：")
-              // console.log(fir_ciphertext)
+              console.log("第一段密文如下：")
+              console.log(fir_ciphertext)
               let sec_ciphertext = encrypt.encrypt(sec_seq);//生成第二段序列的密文
               let ciphertext = fir_ciphertext + sec_ciphertext;
               // console.log("打乱顺序之前的总体密文如下")
@@ -224,6 +224,7 @@ var took = sessionStorage.getItem('tokenKey');
       console.log("上传失败了")
     },
     idcard_ocr(){
+      console.time("x")
         this.$axios({
           method:'post',
           url:'http://'+this.addre+'/ocr/',
@@ -238,7 +239,7 @@ var took = sessionStorage.getItem('tokenKey');
             .then(response=>{
              
               let res = response.data;
-              console.time("x")
+              
     
               //miser解密
               let fir = res["fir"];//第一段起始位置
@@ -254,11 +255,12 @@ var took = sessionStorage.getItem('tokenKey');
               decrypt.setPrivateKey(this.private_key);
               let fir_data = decrypt.decrypt(fir_cip);
               let sec_data = decrypt.decrypt(sec_cip);
+            
               fir_data = JSON.parse(fir_data)//fir_data；解析之后的数据，将后端传回来的json对象转换为可识别的js对象
               sec_data = JSON.parse(sec_data)
               let result = cip_all.substr(0,fir)+fir_data.substr(0,sec-fir)+sec_data+cip_all.substr(fir+3+688)
               result = eval('(' + result + ')');
-              console.timeEnd("x")
+             
 
               this.download_info=result;//为了存入D盘
           
@@ -270,6 +272,7 @@ var took = sessionStorage.getItem('tokenKey');
               this.person_nation=result['nation'];
               this.person_address=result['address'];
               this.$Message.success('识别成功啦！');
+               console.timeEnd("x")
               })
             .catch(Error=>{
               console.log(Error)
