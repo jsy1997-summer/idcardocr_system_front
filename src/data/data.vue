@@ -3,7 +3,7 @@
     //线上接口地址
     // const addre="192.168.0.118:8088";//服务器连接地址
 
-    const addre="192.168.62.200:8088";
+    const addre="192.168.43.250:8088";
     const private_key="";//存储私钥
     const public_key="";//存储公钥
     function dinfyi(){
