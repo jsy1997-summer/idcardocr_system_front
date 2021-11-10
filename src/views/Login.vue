@@ -33,6 +33,7 @@ export default {
   name: 'Login',
    data () {
             return {
+                name:"testname",
                 formCustom: {
                     user: '',
                     password: ''
@@ -94,12 +95,20 @@ export default {
                 })
             },
             enter(){
-                this.$router.push('/register').catch(err => {
+               
+                this.$router.push({
+                    // path:"/login/register",
+                    name:"Register",
+                    // query:{
+                    //     name:"miser",
+                    //     data:"你好"
+                    // }
+                    }).catch(err => {
                         console.log('跳转错误',err)
               })
             },
             forget(){
-                this.$router.push('/forgetpassword').catch(err => {
+                this.$router.push('/login/forgetpassword').catch(err => {
                         console.log('跳转错误',err)
               })
 

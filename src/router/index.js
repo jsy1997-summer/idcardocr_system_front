@@ -6,6 +6,19 @@ import Login from '../views/Login.vue'
 import regis from '../views/userinfo/register.vue'
 import forgetpassword from '../views/userinfo/forgetpassword.vue'
 
+import introduce from '../views/sonviews/introduce.vue'
+import idcardocr from '../views/sonviews/idcardocr.vue'
+import multidocRecognize from '../views/sonviews/multidocRecognize.vue'
+import verifyidcardinfo from '../views/sonviews/verifyidcardinfo.vue'
+import pdf2image from '../views/sonviews/pdf2image.vue'
+import photocheck from '../views/sonviews/photocheck.vue'
+import secverify from '../views/sonviews/secverify.vue'
+import spareone from '../views/sonviews/spareone.vue'
+import father from '../views/sonviews/father.vue'
+
+
+
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -13,29 +26,36 @@ const routes = [
     path: '/', 
     redirect: '/login' 
  },
+//  {
+//   path: "*", 
+//   redirect: '/login' 
+// },//任意不存在页面都重定向到登录页面
  {
    path:"/login",
    name:"Login",
    meta:{
      title:"登录"
    },
-   component: Login,
+  //  component: Login,
+  component: () => import('../views/Login.vue')
  },
  {
-   path:'/register',
+   path:'/login/register',
    name:'Register',
    meta:{
      title:"用户注册"
    },
-   component:regis,
+  //  component:regis,
+  component:()=>import('../views/userinfo/register.vue')
  },
  {
-  path:'/forgetpassword',
+  path:'/login/forgetpassword',
   name:'Forgetpassword',
   meta:{
     title:"忘记密码"
   },
-  component:forgetpassword,
+  // component:forgetpassword,
+  component:()=>import('../views/userinfo/forgetpassword.vue')
 },
   {
     path: '/home',
@@ -43,7 +63,8 @@ const routes = [
     meta:{
       title:"首页"
     },
-    component: Home,
+    // component: Home,
+    component:()=>import('../views/Home.vue'),
     children:[
       {
         path: '/introduce',
@@ -51,6 +72,7 @@ const routes = [
         meta:{
           title:"介绍页面"
         },
+        // component:introduce
         component: () => import('../views/sonviews/introduce')
       },
      
@@ -60,6 +82,7 @@ const routes = [
         meta:{
           title:"身份证识别"
         },
+        // component:idcardocr
         component: () => import('../views/sonviews/idcardocr')
       },
       {
@@ -68,6 +91,7 @@ const routes = [
         meta:{
           title:"多文件识别"
         },
+        // component:multidocRecognize
         component: () => import('../views/sonviews/multidocRecognize')
       },
       {
@@ -76,6 +100,7 @@ const routes = [
         meta:{
           title:"身份信息验证"
         },
+        // component:verifyidcardinfo
         component: () => import('../views/sonviews/verifyidcardinfo')
       },
       {
@@ -84,6 +109,7 @@ const routes = [
         meta:{
           title:"pdf转图片"
         },
+        // component:pdf2image
         component: () => import('../views/sonviews/pdf2image')
       },
       {
@@ -92,6 +118,7 @@ const routes = [
         meta:{
           title:"照片比对"
         },
+        // component:photocheck
         component: () => import('../views/sonviews/photocheck')
       },
       {
@@ -100,17 +127,44 @@ const routes = [
         meta:{
           title:"真伪判别"
         },
-        component: () => import('../views/sonviews/secverify')
+        // component:secverify
+        component: () => import('../views/sonviews/secverify'),
       },
+      {
+        path: '/spare1',
+        name: 'spareone',
+        meta:{
+          title:"学习备用"
+        },
+        // component:spareone
+        component: () => import('../views/sonviews/spareone')
+      },
+      {
+        path: '/father',
+        name: 'father',
+        meta:{
+          title:"父子组件使用"
+        },
+        // component:father
+        component: () => import('../views/sonviews/father')
+       
+      },
+    
   
     ],
+    
   },
   
   
  
 ]
 
+
+
+
+
 const router = new VueRouter({
+  mode:"hash",
   routes
 })
 

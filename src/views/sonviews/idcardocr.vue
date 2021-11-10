@@ -83,6 +83,7 @@ var took = sessionStorage.getItem('tokenKey');
 // const {JSEncrypt} = require('encryptlong')
 
 
+     
   export default {
     name: "Idcardocr", 
     data () {
@@ -115,7 +116,7 @@ var took = sessionStorage.getItem('tokenKey');
       handleBeforeUpload(file) {
           //上传新的图片之前先删除上一个图片
          this.uploadList=[];
-         console.log("我是上传之前")
+        
      
         // 创建一个 FileReader 对象
         let reader = new FileReader()
@@ -132,6 +133,7 @@ var took = sessionStorage.getItem('tokenKey');
             file.url = reader.result
             _this.uploadList.push(file)
             _this.image_base64=file.url; 
+           
           
            
         }  
@@ -161,21 +163,23 @@ var took = sessionStorage.getItem('tokenKey');
                this.private_key = this.private_key.replace("b'","")
                this.private_key = this.private_key.replace("'","")
                this.private_key = this.private_key.replace(/\\n/g, " \n ");
-              console.time('y')
+              // console.time('y')
                            
                //前端进行信息加密
                const  encrypt = new JSEncrypt();
                encrypt.setPublicKey(this.public_key);
               let imgdata = this.image_base64;
               let fir_head = Math.round(Math.random()*30);//生成第一个序列的起始位置【0-30】
+              console.log("第一个序列的位置："+fir_head)
               let sec_head = Math.round(Math.random()*30);//生成第二个序列的起始位置【0-30】
+              console.log("第二个序列位子"+sec_head)
               let fir_seq = imgdata.substr(fir_head,50);//生成第一段序列，长度为50
               // console.log("第一段明文如下")
               // console.log(fir_seq)
               let sec_seq = imgdata.substr(sec_head,50);//生成第二段序列，长度50，与第一段部分重叠不可以再长了，否则会报错
               let fir_ciphertext = encrypt.encrypt(fir_seq);//生成第一段序列的密文
-              console.log("第一段密文如下：")
-              console.log(fir_ciphertext)
+              // console.log("第一段密文如下：")
+              // console.log(fir_ciphertext)
               let sec_ciphertext = encrypt.encrypt(sec_seq);//生成第二段序列的密文
               let ciphertext = fir_ciphertext + sec_ciphertext;
               // console.log("打乱顺序之前的总体密文如下")
@@ -185,7 +189,7 @@ var took = sessionStorage.getItem('tokenKey');
               imgdata = imgdata.substr(0,Math.min(fir_head, sec_head)) + ciphertext +imgdata.substr(Math.max(fir_head,sec_head)+50)//截取部分加密的信息与未截取到的信息，明文+密文+明文
               // let cip_length = ciphertext.length #单个密文的长度是344，两个密文长度688
 
-              console.timeEnd('y')
+              // console.timeEnd('y')
              
           
                this.$axios({
@@ -224,7 +228,7 @@ var took = sessionStorage.getItem('tokenKey');
       console.log("上传失败了")
     },
     idcard_ocr(){
-      console.time("x")
+      // console.time("x")
         this.$axios({
           method:'post',
           url:'http://'+this.addre+'/ocr/',
@@ -278,7 +282,8 @@ var took = sessionStorage.getItem('tokenKey');
               console.log(Error)
               })
      
-     
+  
+
       
      
 

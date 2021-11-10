@@ -165,6 +165,7 @@ var token =  localStorage.getItem('tokenKey')
             
             },
             login(){
+                
                  document.getElementById('login_page').style.display="none";
                  document.getElementById('exam_page').style.display="";
                  this.$axios({

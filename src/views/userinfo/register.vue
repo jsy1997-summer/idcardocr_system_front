@@ -58,6 +58,7 @@
         },
         methods:{
             handleSubmit (name) {
+            
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.$Message.success('Success!');

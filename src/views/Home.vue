@@ -32,10 +32,10 @@
                     </template>
                     <MenuGroup title="文档">
                         <MenuItem name="4-1"><router-link to="/pdf2image"><div style="color:white">pdf转图片</div></router-link></MenuItem>
-                        <MenuItem name="4-2">备用1</MenuItem>
+                        <MenuItem name="4-2"><router-link to="/spare1"><div style="color:white">spareone</div></router-link></MenuItem>
                     </MenuGroup>
                     <MenuGroup title="留存">
-                        <MenuItem name="4-3">备用2</MenuItem>
+                        <MenuItem name="4-3"><router-link to="father"><div style="color:white">父子组件使用</div></router-link></MenuItem>
                         <MenuItem name="4-4">备用3</MenuItem>
                     </MenuGroup>
                 </Submenu>
